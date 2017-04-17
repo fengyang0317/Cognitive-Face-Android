@@ -3,7 +3,7 @@
 <resources>
     <!-- Please refer to https://www.microsoft.com/cognitive-services/en-us/ to get your subscription key -->
     <!-- If you have one subscription key, you can add it here to use the service -->
-    <string name="subscription_key">Please_add_the_subscription_key_here</string>
+    <string name="subscription_key">f3a1b0b5d3c2433b9f0ae162797b0b8c</string>
 
     <!-- Main activity -->
     <string name="detection">Detection</string>
@@ -104,5 +104,21 @@
     <string name="user_provided_description_data">User data</string>
     <string name="user_provided_person_group_name">Person group name</string>
     <string name="user_provided_person_group_description_data">User data</string>
+
+
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="intro_message">
+        <![CDATA[
+
+
+            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
+            you can display camera preview and take pictures.
+
+
+        ]]>
+    </string>
 
 </resources>

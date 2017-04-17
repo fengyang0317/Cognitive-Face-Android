@@ -33,18 +33,32 @@
 package com.microsoft.projectoxford.face.samples.ui;
 
 import android.app.AlertDialog;
+import android.app.KeyguardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.microsoft.projectoxford.face.samples.R;
+import com.microsoft.projectoxford.face.samples.persongroupmanagement.PersonGroupActivity;
+import com.microsoft.projectoxford.face.samples.persongroupmanagement.PersonGroupListActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private Camera2BasicFragment fi = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        KeyguardManager km = (KeyguardManager) getSystemService(this.KEYGUARD_SERVICE);
+        if(km.isKeyguardSecure()) {
+            Intent i = km.createConfirmDeviceCredentialIntent(null, null);
+            this.startActivityForResult(i, 1234);
+        }
 
         if (getString(R.string.subscription_key).startsWith("Please")) {
             new AlertDialog.Builder(this)
@@ -78,5 +92,30 @@ public class MainActivity extends AppCompatActivity {
     public void identification(View view) {
         Intent intent = new Intent(this, IdentificationActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1234) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(this, PersonGroupActivity.class);
+                intent.putExtra("AddNewPersonGroup", false);
+                intent.putExtra("PersonGroupName", "app");
+                intent.putExtra("PersonGroupId", "68a20f03-7828-4bec-82dc-d27f748a496a");
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(this, CameraActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN && fi != null) {
+            fi.myOnKeyDown(keyCode);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
