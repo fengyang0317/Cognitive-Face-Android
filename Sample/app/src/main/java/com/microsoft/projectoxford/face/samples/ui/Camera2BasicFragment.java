@@ -442,7 +442,10 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    public static Camera2BasicFragment newInstance() {
+    private static LockscreenUtils plu;
+
+    public static Camera2BasicFragment newInstance(LockscreenUtils lu) {
+        plu = lu;
         return new Camera2BasicFragment();
     }
 
@@ -946,7 +949,7 @@ public class Camera2BasicFragment extends Fragment
         sum /= result[0].faceRectangle.width * result[0].faceRectangle.height;
         sum = Math.sqrt(sum);
         Log.i("Human", "std=" + sum);
-        return sum < 35;
+        return sum < 45;
     }
 
     boolean checkl(Bitmap bitm, Bitmap bitn, double xx, double yy ,double ww, double hh) {
@@ -977,7 +980,7 @@ public class Camera2BasicFragment extends Fragment
         sumn /= w * h;
         maxdif += summ - sumn;
         Log.i("Human", "maxdif=" + maxdif);
-        return maxdif > 60;
+        return maxdif > 50;
     }
 
     public void myOnKeyDown(int key_code){
@@ -991,14 +994,14 @@ public class Camera2BasicFragment extends Fragment
         final Bitmap bn = BitmapFactory.decodeFile(getActivity().getExternalFilesDir(null).getAbsolutePath() + "/pic_l.jpg");
         final Bitmap bitn = Bitmap.createScaledBitmap(bn, bn.getWidth() / 8, bn.getHeight() / 8, true);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitn.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        bitm.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         ByteArrayInputStream inputStream =
                 new ByteArrayInputStream(outputStream.toByteArray());
 
         final AsyncTask<UUID, String, IdentifyResult[]> identifyTask = new AsyncTask<UUID, String, IdentifyResult[]>
                 () {
             private boolean mSucceed = true;
-            private String mPersonGroupId = "68a20f03-7828-4bec-82dc-d27f748a496a";
+            private String mPersonGroupId = getString(R.string.group_id);
 
             @Override
             protected IdentifyResult[] doInBackground(UUID... params) {
@@ -1024,6 +1027,7 @@ public class Camera2BasicFragment extends Fragment
                 }
                 if (result[0].candidates.size() > 0) {
                     showToast("pass");
+                    plu.unlock();
                 }
                 else {
                     showToast("no such user");
@@ -1079,9 +1083,9 @@ public class Camera2BasicFragment extends Fragment
                                 result[0].faceLandmarks.eyeLeftInner.x,
                                 result[0].faceLandmarks.eyeLeftBottom.y) &&
                                 checkl(bitm, bitn, result[0].faceLandmarks.eyeRightInner.x,
-                                        result[0].faceLandmarks.eyeLeftTop.y,
+                                        result[0].faceLandmarks.eyeRightTop.y,
                                         result[0].faceLandmarks.eyeRightOuter.x,
-                                        result[0].faceLandmarks.eyeLeftBottom.y)) {
+                                        result[0].faceLandmarks.eyeRightBottom.y)) {
 
                             List<UUID> faceIds = new ArrayList<>();
                             for (Face face:  result) {

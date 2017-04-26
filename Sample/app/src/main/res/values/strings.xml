@@ -4,6 +4,7 @@
     <!-- Please refer to https://www.microsoft.com/cognitive-services/en-us/ to get your subscription key -->
     <!-- If you have one subscription key, you can add it here to use the service -->
     <string name="subscription_key">f3a1b0b5d3c2433b9f0ae162797b0b8c</string>
+    <string name="group_id">d33bc98e-708c-4c06-ad14-29f466d67dd4</string>
 
     <!-- Main activity -->
     <string name="detection">Detection</string>

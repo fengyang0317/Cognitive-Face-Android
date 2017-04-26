@@ -32,10 +32,12 @@
 //
 package com.microsoft.projectoxford.face.samples.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -43,6 +45,8 @@ import android.view.View;
 import com.microsoft.projectoxford.face.samples.R;
 import com.microsoft.projectoxford.face.samples.persongroupmanagement.PersonGroupActivity;
 import com.microsoft.projectoxford.face.samples.persongroupmanagement.PersonGroupListActivity;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -101,11 +105,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, PersonGroupActivity.class);
                 intent.putExtra("AddNewPersonGroup", false);
                 intent.putExtra("PersonGroupName", "app");
-                intent.putExtra("PersonGroupId", "68a20f03-7828-4bec-82dc-d27f748a496a");
+                intent.putExtra("PersonGroupId", getString(R.string.group_id));
                 startActivity(intent);
             }
             else {
                 Intent intent = new Intent(this, CameraActivity.class);
+                CommonModelClass.getSingletonObject().setbaseActivity(MainActivity.this);
                 startActivity(intent);
             }
         }
